@@ -30,15 +30,16 @@ pipeline {
         
         stage('docker') {
             steps {
-				sh 'systemctl status docker'
+				
+				  sh 'docker --version'
 
-                sh 'docker images'
+                  sh 'docker images'
 
-                sh 'docker build -t calcwebappmvn:v1 .'
+                  sh 'docker build -t calcwebappmvn:v1 .'
 
-                echo "Docker Image Built Successfully!!"
-                
-                sh 'docker images'
+                  echo "Docker Image Built Successfully!!"
+
+                  sh 'docker images'
                 
                    // junit 'target/surefire-reports/*.xml'
 		           //     echo "Publishing JUnit reports"
