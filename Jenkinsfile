@@ -33,8 +33,6 @@ pipeline {
 				
 				  sh 'docker --version'
 
-				  sh 'ls -l /var/run/docker.sock'
-
                   sh 'docker images'
 
                   sh 'docker build -t calcwebappmvn:v1 .'
