@@ -1,75 +1,87 @@
 pipeline {
-    
+
     agent {
-        label 'kapish' 
+        label 'kapish'
     }
-    
+
     tools {
         maven 'my-maven'
         dockerTool 'my-docker'
     }
-    
+
     stages {
+
         stage('Git Checkout') {
             steps {
-                git url: 'https://github.com/Kapish0879/calcwebappmvn.git'    
-		            echo "Code Checked-out Successfully!!";
-		            sh 'ls -la'
+
+                git url: 'https://github.com/Kapish0879/calcwebappmvn.git'
+
+                echo "Code Checked-out Successfully!!"
+
+                sh 'ls -la'
             }
         }
-        
-            stage('Package') {
-                steps {
-					sh 'ls -la'
-					sh 'mvn clean'
-                    sh 'mvn package'    
-    		            echo "Maven Package Goal Executed Successfully!";
-    		            sh  'ls -la'
-                }
-            }
-        
-        stage('docker') {
+
+        stage('Install Docker') {
             steps {
-				
-				  sh 'docker --version'
 
-                  sh 'docker images'
+                sh '''
+                    sudo apt update
 
-                  sh 'docker build -t calcwebappmvn:v1 .'
+                    sudo apt install docker.io -y
 
-                  echo "Docker Image Built Successfully!!"
+                    sudo systemctl start docker
 
-                  sh 'docker images'
-                
-                   // junit 'target/surefire-reports/*.xml'
-		           //     echo "Publishing JUnit reports"
+                    sudo systemctl enable docker
+
+                    sudo groupadd docker || true
+
+                    sudo usermod -aG docker jenkins
+
+                    sudo chmod 777 /var/run/docker.sock
+                '''
+
+                echo "Docker Installed Successfully!!"
             }
         }
-        
-//         stage('Jacoco Reports') {
-//             steps {
-//                   jacoco()
-//                   echo "Publishing Jacoco Code Coverage Reports";
-//             }
-//         }
 
-// // 	stage('SonarQube analysis') {
-//             steps {
-// 		// Change this as per your Jenkins Configuration
-//                 withSonarQubeEnv('SonarQube') {
-//                     bat 'mvn package sonar:sonar'
-//                 }
-//             }
-//         }
+        stage('Package') {
+            steps {
+
+                sh 'mvn clean'
+
+                sh 'mvn package'
+
+                echo "Maven Package Goal Executed Successfully!"
+
+                sh 'ls -la'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+
+                sh 'docker --version'
+
+                sh 'docker images'
+
+                sh 'docker build -t calcwebappmvn:v1 .'
+
+                echo "Docker Image Built Successfully!!"
+
+                sh 'docker images'
+            }
+        }
     }
+
     post {
-        
+
         success {
-            echo 'This will run only if successful'
+            echo 'Pipeline executed successfully!'
         }
+
         failure {
-            echo 'This will run only if failed'
+            echo 'Pipeline failed!'
         }
-    
     }
 }
