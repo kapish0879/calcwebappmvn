@@ -24,34 +24,8 @@ pipeline {
 
         stage('Install Docker') {
             steps {
+                sh 'docker --version'
 
-                sh '''
-                    if ! command -v docker > /dev/null 2>&1
-                    then
-                        echo "Docker not found. Installing Docker..."
-
-                        sudo apt update -y
-
-                        sudo apt install docker.io -y
-
-                        sudo systemctl start docker
-
-                        sudo systemctl enable docker
-
-                        sudo groupadd docker || true
-
-                        sudo usermod -aG docker jenkins
-
-                        sudo chmod 777 /var/run/docker.sock
-
-                        docker --version
-
-                    else
-                        echo "Docker already installed"
-
-                        docker --version
-                    fi
-                '''
             }
         }
 
