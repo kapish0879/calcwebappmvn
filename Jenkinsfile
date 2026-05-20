@@ -22,6 +22,35 @@ pipeline {
             }
         }
 
+        stage('Install Docker') {
+            steps {
+
+                sh '''
+                    if ! command -v docker > /dev/null 2>&1
+                    then
+                        echo "Docker not found. Installing Docker..."
+
+                        sudo apt update
+
+                        sudo apt install docker.io -y
+
+                        sudo systemctl start docker
+
+                        sudo systemctl enable docker
+
+                        sudo groupadd docker || true
+
+                        sudo usermod -aG docker jenkins
+
+                        sudo chmod 777 /var/run/docker.sock
+
+                    else
+                        echo "Docker already installed"
+                    fi
+                '''
+            }
+        }
+
         stage('Package') {
             steps {
 
@@ -30,8 +59,6 @@ pipeline {
                 sh 'mvn package'
 
                 echo "Maven Package Goal Executed Successfully!"
-
-                sh 'ls -la'
             }
         }
 
