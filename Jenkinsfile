@@ -26,22 +26,32 @@ pipeline {
             steps {
 
                 sh '''
-                    sudo apt update
+                    if ! command -v docker > /dev/null 2>&1
+                    then
+                        echo "Docker not found. Installing Docker..."
 
-                    sudo apt install docker.io -y
+                        sudo apt update -y
 
-                    sudo systemctl start docker
+                        sudo apt install docker.io -y
 
-                    sudo systemctl enable docker
+                        sudo systemctl start docker
 
-                    sudo groupadd docker || true
+                        sudo systemctl enable docker
 
-                    sudo usermod -aG docker jenkins
+                        sudo groupadd docker || true
 
-                    sudo chmod 777 /var/run/docker.sock
+                        sudo usermod -aG docker jenkins
+
+                        sudo chmod 777 /var/run/docker.sock
+
+                        docker --version
+
+                    else
+                        echo "Docker already installed"
+
+                        docker --version
+                    fi
                 '''
-
-                echo "Docker Installed Successfully!!"
             }
         }
 
