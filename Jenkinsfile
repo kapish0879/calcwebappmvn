@@ -22,13 +22,6 @@ pipeline {
             }
         }
 
-        stage('Install Docker') {
-            steps {
-                sh 'docker --version'
-
-            }
-        }
-
         stage('Package') {
             steps {
 
