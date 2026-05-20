@@ -26,9 +26,6 @@ pipeline {
             steps {
 
                 sh '''
-                    if ! command -v docker > /dev/null 2>&1
-                    then
-                        echo "Docker not found. Installing Docker..."
 
                         sudo apt update
 
@@ -43,10 +40,7 @@ pipeline {
                         sudo usermod -aG docker jenkins
 
                         sudo chmod 777 /var/run/docker.sock
-
-                    else
-                        echo "Docker already installed"
-                    fi
+                        
                 '''
             }
         }
