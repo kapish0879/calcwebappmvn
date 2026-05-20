@@ -22,29 +22,6 @@ pipeline {
             }
         }
 
-        stage('Install Docker') {
-            steps {
-
-                sh '''
-
-                        sudo apt update
-
-                        sudo apt install docker.io -y
-
-                        sudo systemctl start docker
-
-                        sudo systemctl enable docker
-
-                        sudo groupadd docker || true
-
-                        sudo usermod -aG docker jenkins
-
-                        sudo chmod 777 /var/run/docker.sock
-                        
-                '''
-            }
-        }
-
         stage('Package') {
             steps {
 
