@@ -5,7 +5,7 @@ pipeline {
     }
     
     tools {
-        maven 'xyz-maven'
+        maven 'my-maven'
         dockerTool 'my-docker'
     }
     
