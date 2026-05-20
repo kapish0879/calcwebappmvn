@@ -30,11 +30,6 @@ pipeline {
         
         stage('docker') {
             steps {
-				sh 'sudo -i'
-
-				sh ' usermod -aG docker jenkins'
-
-				sh 'systemctl start docker'
 
                 sh 'docker images'
 
