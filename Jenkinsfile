@@ -8,6 +8,9 @@ pipeline {
         maven 'my-maven'
         //dockerTool 'my-docker'
     }
+    environment {
+        calcwebappmvn = 'calcwebappmvn'
+    }
 
     stages {
 
