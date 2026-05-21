@@ -50,7 +50,7 @@ pipeline {
                 sh 'docker images'
             }
         }
-        //pushing image to aws ecr
+        #pushing image to aws ecr
         stage('Docker Push') {
             steps {
 
@@ -63,6 +63,27 @@ pipeline {
                 echo "Docker Image Pushed to AWS ECR Successfully!!"
             }
         }
+        #deploying image to aws eks
+        stage('Deploy to EKS') {
+            steps {
+                sh 'kubectl version --client'
+
+                sh 'kubectl create namespace jenkins'
+
+                sh 'kubectl config --set-context --current --namespace=jenkins'
+
+                sh 'kubectl get nodes'
+
+                sh 'aws eks update-kubeconfig --region us-east-1 --name my-cluster'
+
+                sh 'kubectl apply -f jenkins-cal-app.yaml'
+
+                sh 'kubectl get pods'
+
+                echo "Application Deployed to AWS EKS Successfully!!"
+            }
+        }
+        
     }
 
     post {
