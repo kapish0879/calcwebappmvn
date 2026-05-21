@@ -50,6 +50,19 @@ pipeline {
                 sh 'docker images'
             }
         }
+        #pushing image to aws ecr
+        stage('Docker Push') {
+            steps {
+
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 964742912902.dkr.ecr.us-east-1.amazonaws.com'
+
+                sh 'docker tag $calcwebappmvn:$BUILD_NUMBER 964742912902.dkr.ecr.us-east-1.amazonaws.com/dev/project:$BUILD_NUMBER'
+
+                sh 'docker push 964742912902.dkr.ecr.us-east-1.amazonaws.com/dev/project:$BUILD_NUMBER'
+
+                echo "Docker Image Pushed to AWS ECR Successfully!!"
+            }
+        }
     }
 
     post {
