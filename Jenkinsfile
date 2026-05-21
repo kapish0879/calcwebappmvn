@@ -68,8 +68,6 @@ pipeline {
             steps {
                 sh 'kubectl version --client'
 
-                sh 'kubectl create namespace jenkins'
-
                 sh 'kubectl config set-context --current --namespace=jenkins'
 
                 sh 'kubectl get nodes'
