@@ -50,7 +50,7 @@ pipeline {
                 sh 'docker images'
             }
         }
-        #pushing image to aws ecr
+        //pushing image to aws ecr
         stage('Docker Push') {
             steps {
 
