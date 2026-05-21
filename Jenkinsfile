@@ -50,7 +50,7 @@ pipeline {
                 sh 'docker images'
             }
         }
-        #pushing image to aws ecr
+        //pushing image to aws ecr
         stage('Docker Push') {
             steps {
 
@@ -63,7 +63,7 @@ pipeline {
                 echo "Docker Image Pushed to AWS ECR Successfully!!"
             }
         }
-        #deploying image to aws eks
+        //deploying image to aws eks
         stage('Deploy to EKS') {
             steps {
                 sh 'kubectl version --client'
