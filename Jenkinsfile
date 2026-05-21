@@ -74,9 +74,9 @@ pipeline {
 
                 sh 'aws eks update-kubeconfig --region us-east-1 --name my-cluster'
 
-                sh 'kubectl apply -f jenkins-cal-app.yaml'
+                sh 'kubectl apply -f deployment.yaml'
 
-                sh 'kubectl get pods'
+                sh 'kubectl get all'
 
                 echo "Application Deployed to AWS EKS Successfully!!"
             }
