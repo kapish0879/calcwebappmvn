@@ -6,7 +6,7 @@ pipeline {
 
     tools {
         maven 'my-maven'
-        dockerTool 'my-docker'
+        //dockerTool 'my-docker'
     }
 
     stages {
@@ -40,7 +40,7 @@ pipeline {
 
                 sh 'docker images'
 
-                sh 'docker build -t calcwebappmvn:v1 .'
+                sh 'docker build -t $calcwebappmvn:$BUILD_NUMBER .'
 
                 echo "Docker Image Built Successfully!!"
 
