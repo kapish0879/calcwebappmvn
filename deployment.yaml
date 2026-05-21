@@ -1,0 +1,36 @@
+#deployment file for jenkins cal app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-cal-app
+  labels:
+    app: jenkins-cal-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-cal-app
+  template:
+    metadata:
+      labels:
+        app: jenkins-cal-app
+    spec:
+      containers:
+      - name: jenkins-cal-app
+        image: kapishkumar/jenkins-cal-app:v1
+        ports:
+        - containerPort: 8080
+---
+#service file for jenkins cal app
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-cal-app-service
+spec:
+  selector:
+    app: jenkins-cal-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
