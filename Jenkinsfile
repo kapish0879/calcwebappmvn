@@ -69,7 +69,7 @@ pipeline {
          stage('Replace Image') {
             steps {
                 sh """
-                sed -i 's|PLACEHOLDER_IMAGE|${IMAGE_NAME}|g' deployment.yaml
+                sed -i "s|PLACEHOLDER_IMAGE|${IMAGE_NAME}|g" deployment.yaml
                 """
             }
         }
