@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: jenkins-cal-app
-        image: kapishkumar/jenkins-cal-app:v1
+        image: IMAGE_PLACEHOLDER
         ports:
         - containerPort: 8080
 ---
