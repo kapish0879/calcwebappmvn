@@ -10,6 +10,8 @@ pipeline {
     }
     environment {
         calcwebappmvn = 'calcwebappmvn'
+        IMAGE_NAME = '964742912902.dkr.ecr.us-east-1.amazonaws.com/dev/project:$BUILD_NUMBER'
+        
     }
 
     stages {
@@ -63,12 +65,14 @@ pipeline {
                 echo "Docker Image Pushed to AWS ECR Successfully!!"
             }
         }
-        //deploying image to aws eks
+        #deploying image to aws eks
         stage('Deploy to EKS') {
             steps {
                 sh 'kubectl version --client'
 
-                sh 'kubectl config set-context --current --namespace=jenkins'
+                sh 'kubectl create namespace jenkins'
+
+                sh 'kubectl config --set-context --current --namespace=jenkins'
 
                 sh 'kubectl get nodes'
 
@@ -76,7 +80,7 @@ pipeline {
 
                 sh 'kubectl apply -f deployment.yaml'
 
-                sh 'kubectl get all'
+                sh 'kubectl get pods'
 
                 echo "Application Deployed to AWS EKS Successfully!!"
             }
