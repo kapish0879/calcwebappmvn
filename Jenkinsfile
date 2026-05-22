@@ -65,6 +65,14 @@ pipeline {
                 echo "Docker Image Pushed to AWS ECR Successfully!!"
             }
         }
+        // replace image name 
+         stage('Replace Image') {
+            steps {
+                sh """
+                sed -i 's|PLACEHOLDER_IMAGE|${IMAGE_NAME}|g' deployment.yaml
+                """
+            }
+        }
         //deploying image to aws eks
         stage('Deploy to EKS') {
             steps {
