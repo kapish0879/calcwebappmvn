@@ -12,6 +12,7 @@ pipeline {
         calcwebappmvn = 'calcwebappmvn'
         IMAGE_NAME = '964742912902.dkr.ecr.us-east-1.amazonaws.com/dev/project:$BUILD_NUMBER'
         
+        
     }
 
     stages {
@@ -24,6 +25,16 @@ pipeline {
                 echo "Code Checked-out Successfully!!"
 
                 sh 'ls -la'
+            }
+        }
+        stage('sonarQube Analysis') {
+            steps {
+
+                withSonarQubeEnv('sonar') {
+                    sh 'mvn clean verify sonar:sonar'
+                }
+
+                echo "SonarQube Analysis Completed Successfully!!"
             }
         }
 
@@ -74,7 +85,7 @@ pipeline {
             }
         }
         //deploying image to aws eks
-        stage('Deploy to EKS') {
+       /* stage('Deploy to EKS') {
             steps {
                 sh 'kubectl version --client'
 
@@ -92,7 +103,7 @@ pipeline {
             }
         }
         
-    }
+    }*/
 
     post {
 
