@@ -1,4 +1,5 @@
-pipeline {
+pipeline 
+{
 
     agent {
         label 'kapish'
@@ -101,9 +102,9 @@ pipeline {
 
                 echo "Application Deployed to AWS EKS Successfully!!"
             }
-        }
+        }*/
         
-    }*/
+    }
 
     post {
 
